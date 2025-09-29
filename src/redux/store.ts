@@ -1,10 +1,31 @@
-import { configureStore } from '@reduxjs/toolkit'
+import { configureStore } from "@reduxjs/toolkit";
+import auth_slice from "./features/auth/auth_slice";
+import { base_api } from "./api/base_api";
+import { persistStore, persistReducer, FLUSH, REHYDRATE, PAUSE, PERSIST, REGISTER, PURGE } from "redux-persist";
+import storage from "redux-persist/lib/storage";
+
+const persist_config = {
+  key: "auth",
+  storage,
+};
+const persisted_reducer = persistReducer(persist_config, auth_slice);
 
 export const store = configureStore({
-  reducer: {},
-})
+  reducer: {
+    auth: persisted_reducer,
+    [base_api.reducerPath]: base_api.reducer,
+  },
+  middleware: (getDefacultMiddleware) =>
+    getDefacultMiddleware({
+        serializableCheck:{
+            ignoredActions:[FLUSH, REHYDRATE,PAUSE, PERSIST, PURGE, REGISTER]
+        }
+    }).concat(base_api.middleware),
+});
 
 // Infer the `RootState` and `AppDispatch` types from the store itself
-export type RootState = ReturnType<typeof store.getState>
+export type RootState = ReturnType<typeof store.getState>;
 // Inferred type: {posts: PostsState, comments: CommentsState, users: UsersState}
-export type AppDispatch = typeof store.dispatch
+export type AppDispatch = typeof store.dispatch;
+
+export const persister = persistStore(store);
