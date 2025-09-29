@@ -1,49 +1,15 @@
 import { Layout, Menu } from "antd";
+import { Outlet } from "react-router-dom";
+import { admin_sidebar } from "../../routes/admin_routes";
 const { Header, Content, Footer, Sider } = Layout;
 
-const items = [
-  {
-    key: "1",
-    label: "nav 1",
-  },
-  {
-    key: "2",
-    label: "nav 2",
-  },
-  {
-    key: "3",
-    label: "nav 3",
-    children: [
-      {
-        key: "3-1",
-        label: "option 1",
-      },
-      {
-        key: "3-2",
-        label: "option 2",
-        children: [
-          {
-            key: "3-2-1",
-            label: "option 1",
-          },
-        ],
-      },
-      {
-        key: "3-3",
-        label: "option 3",
-      },
-    ],
-  },
-  {
-    key: "4",
-    label: "nav 4",
-  },
-];
+
+console.log(admin_sidebar)
 
 const Main_Layout = () => {
   return (
     <div>
-      <Layout className="min-h-screen">
+      <Layout style={{ minHeight: "100vh"}}>
         <Sider
           breakpoint="lg"
           collapsedWidth="0"
@@ -54,14 +20,14 @@ const Main_Layout = () => {
             console.log(collapsed, type);
           }}
         >
-          <div style={{display:'flex', color:'white', fontSize:'10px', textAlign:'center', justifyContent:'center', alignItems:'center'}}>
+          <div style={{display:'flex', padding:'10px 0px', color:'white', fontSize:'10px', textAlign:'center', justifyContent:'center', alignItems:'center'}}>
             <h1>PH UNIVERSITY</h1>
           </div>
           <Menu
             theme="dark"
             mode="inline"
             defaultSelectedKeys={["4"]}
-            items={items}
+            items={admin_sidebar}
           />
         </Sider>
         <Layout>
@@ -73,7 +39,7 @@ const Main_Layout = () => {
                 minHeight: 360,
               }}
             >
-              <h1>this is main layout</h1>
+             <Outlet></Outlet>
             </div>
           </Content>
           <Footer style={{ textAlign: "center" }}>
