@@ -2,7 +2,7 @@ import Create_student from "../pages/admin/Create_student";
 import Dashboard from "../pages/admin/dashboard";
 import Create_faculty from "../pages/admin/create_faculty";
 import Create_Admin from "../pages/admin/Create_Admin";
-import { Children, type ReactNode } from "react";
+import { type ReactNode } from "react";
 import { NavLink } from "react-router-dom";
 
 const admin_paths = [
