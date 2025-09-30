@@ -2,7 +2,7 @@ import { useGet_all_academic_semestersQuery } from "@/redux/features/academic_se
 
 const Academic_semesters = () => {
   const { data, isLoading , error} = useGet_all_academic_semestersQuery(undefined);
-  console.log(isLoading, data);
+  console.log(isLoading, data, error);
   return (
     <div>
       <h1>{isLoading? 'Loading ....': "This is academic_semesters component"}</h1>

@@ -1,6 +1,6 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import type { RootState } from "../store";
-import { set_user } from "../features/auth/auth_slice";
+import { logout, set_user } from "../features/auth/auth_slice";
 
 const base_query = fetchBaseQuery({
   baseUrl: "http://localhost:1000/api/v1",
@@ -26,20 +26,22 @@ const base_query_with_refresh_token = async (args, api, extraOptions) => {
     });
 
     const data = await res.json();
-    const user = (api.getState() as RootState).auth.user;
 
-    console.log({
-      user,
-      token: data.data.accessToken,
-    });
-    api.dispatch(
-      set_user({
-        user,
-        token: data.data.accessToken,
-      })
-    );
 
-    result = await base_query(args, api, extraOptions);
+
+    if (data?.data?.accessToken) {
+      const user = (api.getState() as RootState).auth.user;
+      api.dispatch(
+        set_user({
+          user,
+          token: data.data.accessToken,
+        })
+      );
+
+      result = await base_query(args, api, extraOptions);
+    } else {
+      api.dispatch(logout());
+    }
   }
   return result;
 };
