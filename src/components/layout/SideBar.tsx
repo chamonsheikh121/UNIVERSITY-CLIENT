@@ -3,19 +3,21 @@ import generate_dynamic_sidebar from "../../utils/generate_dynamic_sidebar";
 import { admin_paths } from "../../routes/admin_routes";
 import { faculty_paths } from "../../routes/faculty_routes";
 import { student_paths } from "../../routes/student_routes";
+import { useAppSelector } from "@/redux/hook";
+import { current_user } from "@/redux/features/auth/auth_slice";
 
 const { Sider } = Layout;
 
 const SideBar = () => {
+  const user = useAppSelector(current_user);
+
   const user_role = {
     ADMIN: "admin",
     FACULTY: "faculty",
     STUDENT: "student",
   };
-  const role = user_role.ADMIN;
-
   let sidebar_items;
-  switch (role) {
+  switch (user?.role) {
     case user_role.ADMIN:
       sidebar_items = generate_dynamic_sidebar(admin_paths, user_role.ADMIN);
       break;
@@ -39,8 +41,7 @@ const SideBar = () => {
   return (
     <div>
       <Sider
-
-      style={{ minHeight:'100vh',}}
+        style={{ minHeight: "100vh" }}
         breakpoint="lg"
         collapsedWidth="0"
         onBreakpoint={(broken) => {
@@ -59,7 +60,6 @@ const SideBar = () => {
             textAlign: "center",
             justifyContent: "center",
             alignItems: "center",
-           
           }}
         >
           <h1>PH UNIVERSITY</h1>

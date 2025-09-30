@@ -2,10 +2,12 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useLoginMutation } from "@/redux/features/auth/auth_apis";
-import { set_user } from "@/redux/features/auth/auth_slice";
+import { set_user, type TUSer } from "@/redux/features/auth/auth_slice";
 import { useAppDispatch } from "@/redux/hook";
 import { decode_access_token } from "@/utils/decode_access_token";
-import { useForm } from "react-hook-form";
+import { useForm, type FieldValues } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
+import { toast } from "sonner";
 
 const Login = () => {
   const { register, handleSubmit } = useForm({
@@ -16,26 +18,38 @@ const Login = () => {
   });
 
   const dispatch = useAppDispatch();
-
-  const [login, { error }] = useLoginMutation();
+  const navigate = useNavigate();
+  const [login] = useLoginMutation();
 
   //   console.log(data, isLoading, error);
 
-  const onSubmit = async (data) => {
-    const userInfo = {
-      auth_data: {
-        id: data?.id,
-        password: data?.password,
-      },
-    };
-    const res = await login(userInfo).unwrap();
-    const user = decode_access_token(res?.data?.accessToken);
-    dispatch(
-      set_user({
-        user: user,
-        token: res?.data?.accessToken,
-      })
-    );
+  const onSubmit = async (data: FieldValues) => {
+    const login_id = toast.loading("Logging in...");
+    try {
+      const userInfo = {
+        auth_data: {
+          id: data?.id,
+          password: data?.password,
+        },
+      };
+      const res = await login(userInfo).unwrap();
+      const user = decode_access_token(res?.data?.accessToken) as TUSer;
+      if (user) {
+        toast.success("Logged in successfully", {
+          id: login_id,
+          duration: 2000,
+        });
+      }
+      dispatch(
+        set_user({
+          user: user,
+          token: res?.data?.accessToken,
+        })
+      );
+      navigate(`/${user.role}/dashboard`);
+    } catch (error) {
+      toast.error("Login failed", { id: login_id, duration: 2000 });
+    }
   };
 
   return (
