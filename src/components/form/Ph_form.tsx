@@ -1,3 +1,4 @@
+import { Form } from "antd";
 import type { ReactNode } from "react";
 import {
   FormProvider,
@@ -24,7 +25,9 @@ const Ph_form = ({ onSubmit, children, defaultValues }: PhFormProps) => {
 
   return (
     <FormProvider {...methods}>
-      <form onSubmit={methods.handleSubmit(onSubmit)}>{children}</form>;
+      <Form layout="vertical" onFinish={methods.handleSubmit(onSubmit)}>
+        {children}
+      </Form>
     </FormProvider>
   );
 };

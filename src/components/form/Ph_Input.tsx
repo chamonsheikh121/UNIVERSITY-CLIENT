@@ -1,5 +1,5 @@
 import { Label } from "@radix-ui/react-label";
-import { Input } from "antd";
+import { Form, Input } from "antd";
 import { Controller, useFormContext } from "react-hook-form";
 
 type TPh_Input_Props = {
@@ -11,19 +11,14 @@ type TPh_Input_Props = {
 };
 
 const Ph_Input = ({ type, name, id, place_holder, label }: TPh_Input_Props) => {
-
   return (
     <div className="flex items-start gap-2 flex-col">
-      <Label htmlFor={id}>{label}</Label>
       <Controller
         name={name}
-        render={({field}) => (
-          <Input
-            {...field}
-            id={id}
-            type={type}
-            placeholder={place_holder}
-          />
+        render={({ field }) => (
+          <Form.Item label={label}>
+            <Input {...field} id={id} size="large" type={type} placeholder={place_holder} />
+          </Form.Item>
         )}
       />
     </div>

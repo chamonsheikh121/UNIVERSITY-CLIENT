@@ -3,6 +3,11 @@ import Create_Admin from "../pages/admin/Create_Admin";
 import Dashboard from "../pages/admin/Dashboard";
 import Create_faculty from "../pages/admin/Create_faculty";
 import Academic_semesters from "./../pages/admin/academic_semester/Academic_semesters";
+import Academic_Faculty from "@/pages/admin/Academic_Faculty/Academic_Faculty";
+import Create_Academic_Faculty from "@/pages/admin/Academic_Faculty/Create_Academic_Faculty";
+import Create_Academic_Semester from "@/pages/admin/academic_semester/Create_Academic_Semester";
+import Create_Academic_Department from "@/pages/admin/Academic_Department/Create_Academic_Department";
+import Academic_Department from "@/pages/admin/Academic_Department/Academic_Department";
 
 export const admin_paths = [
   {
@@ -11,13 +16,38 @@ export const admin_paths = [
     element: <Dashboard></Dashboard>,
   },
   {
-    name: "Semester Management",
+    name: "Academic Management",
     children: [
       {
-        name: "Academic Semesters",
-        path: "academic-semesters",
+        name: "Create A. Faculty",
+        path: "create-academic-faculty",
+        element: <Create_Academic_Faculty></Create_Academic_Faculty>,
+      },  
+      {
+        name: "Academic Faculty",
+        path: "academic-faculty",
+        element: <Academic_Faculty></Academic_Faculty>,
+      },  
+      {
+        name: "Create A. Semester",
+        path: "create-academic-semester",
+        element: <Create_Academic_Semester></Create_Academic_Semester>,
+      },  
+      {
+        name: "Academic Semester",
+        path: "academic-semester",
         element: <Academic_semesters></Academic_semesters>,
-      },
+      },  
+      {
+        name: "Create A. Department",
+        path: "create-academic-department",
+        element: <Create_Academic_Department></Create_Academic_Department>,
+      },  
+      {
+        name: "Academic Department",
+        path: "academic-department",
+        element: <Academic_Department></Academic_Department>,
+      },  
     ],
   },  
   {
