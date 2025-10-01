@@ -1,3 +1,5 @@
+import Ph_form from "@/components/form/Ph_form";
+import Ph_Input from "@/components/form/Ph_Input";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -10,26 +12,25 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 
 const Login = () => {
-  const { register, handleSubmit } = useForm({
-    defaultValues: {
-      id: "A-0001",
-      password: "chamonali1",
-    },
-  });
-
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const [login] = useLoginMutation();
 
-  //   console.log(data, isLoading, error);
+  // console.log(data, isLoading, error);
+
+  const defaultValues = {
+    user_id: "A-0001",
+    user_password: "chamonali1",
+  };
 
   const onSubmit = async (data: FieldValues) => {
+    console.log(data);
     const login_id = toast.loading("Logging in...");
     try {
       const userInfo = {
         auth_data: {
-          id: data?.id,
-          password: data?.password,
+          id: data?.user_id,
+          password: data?.user_password,
         },
       };
       const res = await login(userInfo).unwrap();
@@ -53,36 +54,37 @@ const Login = () => {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen">
-      <div className="min-w-md   rounded-lg shadow-md">
-        <h2 className="text-2xl font-bold mb-4">Login</h2>
-        <form onSubmit={handleSubmit(onSubmit)} className="grid gap-4 p-20">
-          <div className="grid gap-1">
-            <Label htmlFor="email">Email</Label>
-            <Input
-              {...register("id")}
-              id="text"
-              type="text"
-              placeholder="Your id"
-            />
-          </div>
+    <Ph_form onSubmit={onSubmit} defaultValues={defaultValues}>
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="min-w-md   rounded-lg shadow-md">
+          <h2 className="text-2xl font-bold mb-4">Login</h2>
+          <div className="grid gap-4 p-20">
+            <div className="grid gap-1">
+              <Ph_Input
+                type="text"
+                id="user_id"
+                name="user_id"
+                place_holder="eg: A-****, F-***, *********"
+                label="Your user id"
+              ></Ph_Input>
+            </div>
+            <div className="grid gap-1">
+              <Ph_Input
+                type="password"
+                id="user_password"
+                name="user_password"
+                place_holder="**************"
+                label="enter your password"
+              ></Ph_Input>
+            </div>
 
-          <div className="grid gap-1">
-            <Label htmlFor="password">Password</Label>
-            <Input
-              {...register("password")}
-              id="text"
-              type="password"
-              placeholder="********"
-            />
+            <Button type="submit" className="mt-4">
+              Login
+            </Button>
           </div>
-
-          <Button type="submit" className="mt-4">
-            Login
-          </Button>
-        </form>
+        </div>
       </div>
-    </div>
+    </Ph_form>
   );
 };
 

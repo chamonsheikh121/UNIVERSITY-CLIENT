@@ -19,7 +19,7 @@ export const admin_paths = [
         element: <Academic_semesters></Academic_semesters>,
       },
     ],
-  },
+  },  
   {
     name: "User Management",
     children: [
