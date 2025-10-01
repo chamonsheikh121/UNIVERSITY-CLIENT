@@ -4,7 +4,7 @@ import SideBar from "./SideBar";
 import { Button } from "antd";
 import { useAppDispatch } from "./../../redux/hook";
 import { logout } from "@/redux/features/auth/auth_slice";
-const { Header, Content, Footer } = Layout;
+const { Header, Content } = Layout;
 
 const Main_Layout = () => {
   const dispatch = useAppDispatch();
@@ -15,7 +15,7 @@ const Main_Layout = () => {
 
   return (
     <div>
-      <Layout style={{ minHeight: "100vh" }}>
+      <Layout style={{ minHeight: "100% " }}>
         <SideBar></SideBar>
         <Layout>
           <Header style={{ padding: 0 }}>
@@ -31,9 +31,7 @@ const Main_Layout = () => {
               <Outlet></Outlet>
             </div>
           </Content>
-          <Footer style={{ textAlign: "center" }}>
-            Ant Design ©{new Date().getFullYear()} Created by Ant UED
-          </Footer>
+          
         </Layout>
       </Layout>
     </div>

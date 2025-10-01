@@ -41,7 +41,7 @@ const SideBar = () => {
   return (
     <div>
       <Sider
-        style={{ minHeight: "100vh" }}
+        style={{ minHeight: "100vh", position: "sticky", top: "0", left: "0" }}
         breakpoint="lg"
         collapsedWidth="0"
         onBreakpoint={(broken) => {

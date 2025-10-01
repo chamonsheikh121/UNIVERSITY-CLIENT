@@ -12,12 +12,13 @@ type TPh_Input_Props = {
 
 const Ph_Input = ({ type, name, id, place_holder, label }: TPh_Input_Props) => {
   return (
-    <div className="flex items-start gap-2 flex-col">
+    <div>
       <Controller
         name={name}
-        render={({ field }) => (
+        render={({ field, fieldState:{error} }) => (
           <Form.Item label={label}>
             <Input {...field} id={id} size="large" type={type} placeholder={place_holder} />
+            {error && <>{error.message}</>}
           </Form.Item>
         )}
       />

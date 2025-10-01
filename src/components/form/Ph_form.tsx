@@ -14,12 +14,21 @@ type PhFormProps = {
 
 type TForm_Config = {
   defaultValues?: Record<string, any>;
+  resolver?: any;
 };
 
-const Ph_form = ({ onSubmit, children, defaultValues }: PhFormProps) => {
+const Ph_form = ({
+  onSubmit,
+  children,
+  defaultValues,
+  resolver,
+}: PhFormProps) => {
   const form_config: TForm_Config = {};
   if (defaultValues) {
     form_config["defaultValues"] = defaultValues;
+  }
+  if (resolver) {
+    form_config["resolver"] = resolver;
   }
   const methods = useForm(form_config);
 

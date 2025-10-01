@@ -17,7 +17,7 @@ const Ph_Select = ({ name, label, options, place_holder }: TSelect) => {
   return (
     <Controller
       name={name}
-      render={({ field: { onChange } }) => (
+      render={({ field: { onChange }, fieldState: { error } }) => (
         <Form.Item label={label}>
           <Select
             showSearch
@@ -29,6 +29,7 @@ const Ph_Select = ({ name, label, options, place_holder }: TSelect) => {
             }
             options={options}
           />
+          {error && <p className="text-red-800">{error.message}</p>}
         </Form.Item>
       )}
     />

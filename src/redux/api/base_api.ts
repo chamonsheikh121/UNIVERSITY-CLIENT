@@ -35,7 +35,7 @@ const base_query_with_refresh_token: BaseQueryFn<
   let result = await base_query(args, api, extraOptions);
 
   const error = result?.error?.data as TError;
-
+  console.log("error from base query", error);
   if ((error?.success as boolean) == false) {
     toast.error(`${error?.message}`);
   }
@@ -44,7 +44,7 @@ const base_query_with_refresh_token: BaseQueryFn<
     const res = await fetch("http://localhost:1000/api/v1/auth/refresh-token", {
       method: "POST",
       credentials: "include",
-    });
+    }); 
 
     const data = await res.json();
 
