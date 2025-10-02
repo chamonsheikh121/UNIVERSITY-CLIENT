@@ -1,31 +1,34 @@
-import React from "react";
-import { Table } from "antd";
+import React, { useState } from "react";
+import { Button, Table } from "antd";
 import type { TableColumnsType, TableProps } from "antd";
 import { useGet_all_academic_semesterQuery } from "@/redux/features/admin/academic_management.api";
+import type { TParamItems, TSemester } from "@/types";
 
-interface DataType {
-  key: React.Key;
-  name: string;
-  age: number;
-  address: string;
-}
+type TSemester_Data_type = Pick<
+  TSemester,
+  "name" | "year" | "end_month" | "start_month"
+> & { creation_date_time: string; updating_date_time: string; key: string };
 
 const Academic_semesters = () => {
-  const { data: semesters } = useGet_all_academic_semesterQuery(undefined);
+  const [params, setParams] = useState<TParamItems[] | undefined>(undefined);
+
+  const { data: semesters } = useGet_all_academic_semesterQuery(params);
 
   const semester_data = semesters?.data?.map(
     ({ _id, name, year, start_month, end_month, createdAt, updatedAt }) => {
       const created_isoString = new Date(createdAt);
       const updated_isoString = new Date(updatedAt);
       const creation_date_time = created_isoString.toLocaleString();
-      let updating_date_time;
-      if (created_isoString.getTime() === updated_isoString.getTime()) {
-        updating_date_time = null;
-      } else {
-        updating_date_time == updated_isoString.toLocaleString();
+      let updating_date_time = "";
+      // console.log(created_isoString.getTime() === updated_isoString.getTime());
+      if (
+        (created_isoString.getTime() === updated_isoString.getTime()) ==
+        false
+      ) {
+        updating_date_time = updated_isoString.toLocaleString();
       }
       return {
-        _id,
+        key: _id,
         name,
         year,
         start_month,
@@ -36,33 +39,23 @@ const Academic_semesters = () => {
     }
   );
 
-  const columns: TableColumnsType<DataType> = [
+  const columns: TableColumnsType<TSemester_Data_type> = [
     {
       title: "Name",
       dataIndex: "name",
       showSorterTooltip: { target: "full-header" },
       filters: [
         {
-          text: "Joe",
-          value: "Joe",
+          text: "Autumn",
+          value: "Autumn",
         },
         {
-          text: "Jim",
-          value: "Jim",
+          text: "Summer",
+          value: "Summer",
         },
         {
-          text: "Submenu",
-          value: "Submenu",
-          children: [
-            {
-              text: "Green",
-              value: "Green",
-            },
-            {
-              text: "Black",
-              value: "Black",
-            },
-          ],
+          text: "Fall",
+          value: "Fall",
         },
       ],
     },
@@ -70,6 +63,37 @@ const Academic_semesters = () => {
     {
       title: "Year",
       dataIndex: "year",
+      showSorterTooltip: { target: "full-header" },
+      filters: [
+        {
+          text: "2020",
+          value: "2020",
+        },
+        {
+          text: "2021",
+          value: "2021",
+        },
+        {
+          text: "2022",
+          value: "2022",
+        },
+        {
+          text: "2023",
+          value: "2023",
+        },
+        {
+          text: "2024",
+          value: "2024",
+        },
+        {
+          text: "2025",
+          value: "2025",
+        },
+        {
+          text: "2027",
+          value: "2027",
+        },
+      ],
     },
     {
       title: "Start Month",
@@ -87,19 +111,34 @@ const Academic_semesters = () => {
       title: "Last update",
       dataIndex: "updating_date_time",
     },
+    {
+      title: "Action",
+      render:()=>{
+       return <div><Button>Update</Button></div>
+      }
+    },
   ];
 
-  const onChange: TableProps<DataType>["onChange"] = (
-    pagination,
+  const onChange: TableProps<TSemester_Data_type>["onChange"] = (
+    _pagination,
     filters,
-    sorter,
+    _sorter,
     extra
   ) => {
-    console.log("params", pagination, filters, sorter, extra);
+    if (extra.action == "filter") {
+      const paramItems: TParamItems[] = [];
+      filters?.name?.forEach((item) => {
+        paramItems.push({ name: "name", value: item });
+      });
+      filters?.year?.forEach((item) => {
+        paramItems.push({ name: "year", value: item });
+      });
+      setParams(paramItems);
+    }
   };
   return (
     <div>
-      <Table<DataType>
+      <Table<TSemester_Data_type>
         columns={columns}
         dataSource={semester_data}
         onChange={onChange}

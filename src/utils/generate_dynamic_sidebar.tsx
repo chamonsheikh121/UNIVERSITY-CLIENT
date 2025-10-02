@@ -6,7 +6,7 @@ import type { TRoute_items, TSidebar } from "../types";
 
 const generate_dynamic_sidebar = (items: TRoute_items[], role?: string): TSidebar[] => {
  
- console.log("user role ", role)
+//  console.log("user role ", role)
 
   return items.reduce<TSidebar[]>((acc, item) => {
     // Leaf route
