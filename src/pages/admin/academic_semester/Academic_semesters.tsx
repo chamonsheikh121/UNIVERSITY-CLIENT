@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Button, Table } from "antd";
+import { Button, Spin, Table } from "antd";
 import type { TableColumnsType, TableProps } from "antd";
 import { useGet_all_academic_semesterQuery } from "@/redux/features/admin/academic_management.api";
 import type { TParamItems, TSemester } from "@/types";
@@ -11,8 +11,11 @@ type TSemester_Data_type = Pick<
 
 const Academic_semesters = () => {
   const [params, setParams] = useState<TParamItems[] | undefined>(undefined);
-
-  const { data: semesters } = useGet_all_academic_semesterQuery(params);
+  const {
+    data: semesters,
+    isLoading,
+    isFetching,
+  } = useGet_all_academic_semesterQuery(params);
 
   const semester_data = semesters?.data?.map(
     ({ _id, name, year, start_month, end_month, createdAt, updatedAt }) => {
@@ -113,9 +116,13 @@ const Academic_semesters = () => {
     },
     {
       title: "Action",
-      render:()=>{
-       return <div><Button>Update</Button></div>
-      }
+      render: () => {
+        return (
+          <div>
+            <Button>Update</Button>
+          </div>
+        );
+      },
     },
   ];
 
@@ -136,12 +143,24 @@ const Academic_semesters = () => {
       setParams(paramItems);
     }
   };
+
+    if (isLoading) {
+      return (
+        <div
+          className="w-full min-h-screen flex items-center justify-center
+      "
+        >
+          <Spin size="large" tip="loading..."></Spin>
+        </div>
+      );
+    }
   return (
     <div>
       <Table<TSemester_Data_type>
         columns={columns}
         dataSource={semester_data}
         onChange={onChange}
+        loading={isFetching}
         showSorterTooltip={{ target: "sorter-icon" }}
       />
     </div>

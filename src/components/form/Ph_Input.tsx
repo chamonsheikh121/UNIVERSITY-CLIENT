@@ -18,7 +18,7 @@ const Ph_Input = ({ type, name, id, place_holder, label }: TPh_Input_Props) => {
         render={({ field, fieldState:{error} }) => (
           <Form.Item label={label}>
             <Input {...field} id={id} size="large" type={type} placeholder={place_holder} />
-            {error && <>{error.message}</>}
+            {error && <p className="text-red-700">{error.message}</p>}
           </Form.Item>
         )}
       />

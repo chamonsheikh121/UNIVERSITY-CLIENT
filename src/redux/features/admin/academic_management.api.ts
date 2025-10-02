@@ -31,10 +31,36 @@ const academic_management_api = base_api.injectEndpoints({
         body: data,
       }),
     }),
+    add_academic_faculty: builder.mutation({
+      query: (data) => ({
+        url: "/academic-faculties/create-academic-faculty",
+        method: "POST",
+        body: data,
+      }),
+    }),
+    get_all_academic_faculties: builder.query({
+      query: (args) => {
+        console.log("args", args);
+        const params = new URLSearchParams();
+        if (args) {
+          args.forEach((item: TParamItems) => {
+            params.append(item.name, item.value as string);
+          });
+        }
+
+        return {
+          url: "/academic-faculties",
+          method: "GET",
+          params
+        };
+      },
+    }),
   }),
 });
 
 export const {
   useGet_all_academic_semesterQuery,
   useAdd_academic_semesterMutation,
+  useAdd_academic_facultyMutation,
+  useGet_all_academic_facultiesQuery,
 } = academic_management_api;

@@ -6,3 +6,7 @@ export const academic_semester_schema =z.object({
     semester_start_month: z.string({required_error: 'Please select start month'}),
     semester_end_month: z.string({required_error: 'Please select end month'})
 })
+
+export const academic_faculty_schema = z.object({
+    faculty_name: z.string({required_error:'This input can not be blank'})
+})

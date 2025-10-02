@@ -32,6 +32,13 @@ export type TError = {
   };
 };
 
+
+export type TFaculty = {
+  _id: string;
+  name: string;
+};
+
+
 export type TSemester = {
   _id: string;
   name: string;

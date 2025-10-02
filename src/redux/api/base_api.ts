@@ -33,7 +33,8 @@ const base_query_with_refresh_token: BaseQueryFn<
   const error = result?.error as TError;
   console.log("error from base query", result);
   if ((error?.data?.success as boolean) == false) {
-    toast.error(`${error?.data?.message}`, { duration: 4000 });
+    const error_message: string = error?.data?.errorSource[0]?.message || error?.data?.message
+    toast.error(`${error_message}`, { duration: 4000 });
   }
   if (result?.error?.status == 401 && error?.data?.message == "jwt expired") {
     console.log("sending refresh token");
