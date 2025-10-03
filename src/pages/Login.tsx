@@ -7,15 +7,15 @@ import { set_user, type TUSer } from "@/redux/features/auth/auth_slice";
 import { useAppDispatch } from "@/redux/hook";
 import { decode_access_token } from "@/utils/decode_access_token";
 import { type FieldValues } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 
 const Login = () => {
+  const location = useLocation();
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const [login] = useLoginMutation();
-
-  // console.log(data, isLoading, error);
+  console.log(location);
 
   const defaultValues = {
     user_id: "A-0001",
@@ -46,7 +46,7 @@ const Login = () => {
           token: res?.data?.accessToken,
         })
       );
-      navigate(`/${user.role}/dashboard`);
+      navigate(`${location?.state?.from ? location.state.from :`/${user.role}/dashboard`}`);
     } catch (error) {
       toast.error("Login failed", { id: login_id, duration: 2000 });
     }

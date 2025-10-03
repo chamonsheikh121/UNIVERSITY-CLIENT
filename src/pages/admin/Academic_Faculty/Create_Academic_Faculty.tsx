@@ -23,6 +23,7 @@ const Create_Academic_Faculty = () => {
       creation_successful_sender<TFaculty>(
         res,
         "Academic faculty created successfully",
+        "Academic faculty creation Failed",
         toast_id
       );
     } catch (error) {

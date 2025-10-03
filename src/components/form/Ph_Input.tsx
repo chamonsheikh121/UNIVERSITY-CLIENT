@@ -1,6 +1,6 @@
-import { Label } from "@radix-ui/react-label";
+
 import { Form, Input } from "antd";
-import { Controller, useFormContext } from "react-hook-form";
+import { Controller, } from "react-hook-form";
 
 type TPh_Input_Props = {
   type: string;
@@ -8,7 +8,7 @@ type TPh_Input_Props = {
   id: string;
   place_holder: string;
   label: string;
-};
+};  
 
 const Ph_Input = ({ type, name, id, place_holder, label }: TPh_Input_Props) => {
   return (
@@ -16,7 +16,7 @@ const Ph_Input = ({ type, name, id, place_holder, label }: TPh_Input_Props) => {
       <Controller
         name={name}
         render={({ field, fieldState:{error} }) => (
-          <Form.Item label={label}>
+          <Form.Item label={`${label} :`}>
             <Input {...field} id={id} size="large" type={type} placeholder={place_holder} />
             {error && <p className="text-red-700">{error.message}</p>}
           </Form.Item>

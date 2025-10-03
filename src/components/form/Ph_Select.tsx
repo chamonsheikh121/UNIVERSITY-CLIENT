@@ -18,7 +18,7 @@ const Ph_Select = ({ name, label, options, place_holder }: TSelect) => {
     <Controller
       name={name}
       render={({ field: { onChange }, fieldState: { error } }) => (
-        <Form.Item label={label}>
+        <Form.Item label={`${label} :`}>
           <Select
             showSearch
             size="large"

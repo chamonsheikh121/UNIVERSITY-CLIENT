@@ -1,12 +1,21 @@
 import z from "zod/v3";
 
-export const academic_semester_schema =z.object({
-    semester_name: z.string({required_error: 'Please select a semester name'}),
-    semester_year: z.string({required_error: 'Please select year'}),
-    semester_start_month: z.string({required_error: 'Please select start month'}),
-    semester_end_month: z.string({required_error: 'Please select end month'})
-})
+export const academic_semester_schema = z.object({
+  semester_name: z.string({ required_error: "Please select a semester name" }),
+  semester_year: z.string({ required_error: "Please select year" }),
+  semester_start_month: z.string({
+    required_error: "Please select start month",
+  }),
+  semester_end_month: z.string({ required_error: "Please select end month" }),
+});
 
 export const academic_faculty_schema = z.object({
-    faculty_name: z.string({required_error:'This input can not be blank'})
-})
+  faculty_name: z.string({ required_error: "This input can not be blank" }),
+});
+
+export const academic_department_validation_schema = z.object({
+  department_name: z.string({
+    required_error: "Please This input can not be blank",
+  }),
+  academic_faculty_id: z.string({ required_error: "Please select a Academic Faculty" }),
+});
