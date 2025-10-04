@@ -17,11 +17,12 @@ const Ph_Select = ({ name, label, options, place_holder }: TSelect) => {
   return (
     <Controller
       name={name}
-      render={({ field: { onChange }, fieldState: { error } }) => (
+      render={({ field: { onChange, value }, fieldState: { error } }) => (
         <Form.Item label={`${label} :`}>
           <Select
             showSearch
             size="large"
+            value={value}
             onChange={onChange}
             placeholder={place_holder}
             filterOption={(input, option) =>

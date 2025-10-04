@@ -8,6 +8,10 @@ import Create_Academic_Faculty from "@/pages/admin/Academic_Faculty/Create_Acade
 import Create_Academic_Semester from "@/pages/admin/academic_semester/Create_Academic_Semester";
 import Create_Academic_Department from "@/pages/admin/Academic_Department/Create_Academic_Department";
 import Academic_Department from "@/pages/admin/Academic_Department/Academic_Department";
+import { Children } from "react";
+import Students from "@/pages/admin/usersManagement/Students";
+import Faculties from "@/pages/admin/usersManagement/Faculties";
+import Admin from "@/pages/admin/usersManagement/Admin";
 
 export const admin_paths = [
   {
@@ -22,34 +26,75 @@ export const admin_paths = [
         name: "Create A. Faculty",
         path: "create-academic-faculty",
         element: <Create_Academic_Faculty></Create_Academic_Faculty>,
-      },  
+      },
       {
         name: "Academic Faculty",
         path: "academic-faculty",
         element: <Academic_Faculty></Academic_Faculty>,
-      },  
+      },
       {
         name: "Create A. Semester",
         path: "create-academic-semester",
         element: <Create_Academic_Semester></Create_Academic_Semester>,
-      },  
+      },
       {
         name: "Academic Semester",
         path: "academic-semester",
         element: <Academic_semesters></Academic_semesters>,
-      },  
+      },
       {
         name: "Create A. Department",
         path: "create-academic-department",
         element: <Create_Academic_Department></Create_Academic_Department>,
-      },  
+      },
       {
         name: "Academic Department",
         path: "academic-department",
         element: <Academic_Department></Academic_Department>,
-      },  
+      },
     ],
-  },  
+  },
+  {
+    name: "Users Management",
+    children: [
+      {
+        name: "Create User",
+        children: [
+          {
+            name: "Create Student",
+            path: "create-student",
+            element: <Create_student></Create_student>,
+          },
+          {
+            name: "Create Faculty",
+            path: "create-faculty",
+            element: <Create_faculty></Create_faculty>,
+          },
+
+          {
+            name: "Create Admin",
+            path: "create-admin",
+            element: <Create_Admin></Create_Admin>,
+          },
+        ],
+      },
+      {
+        name: "Students",
+        path: "students",
+        element: <Students></Students>,
+      },
+      {
+        name: "Faculties",
+        path: "faculties",
+        element: <Faculties></Faculties>,
+      },
+      {
+        name: "Admins",
+        path: "admins",
+        element: <Admin></Admin>,
+      },
+    ],
+  },
   {
     name: "User Management",
     children: [
