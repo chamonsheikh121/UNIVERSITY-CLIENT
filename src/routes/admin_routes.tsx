@@ -11,7 +11,9 @@ import Academic_Department from "@/pages/admin/Academic_Department/Academic_Depa
 import Students from "@/pages/admin/usersManagement/Students";
 import Faculties from "@/pages/admin/usersManagement/Faculties";
 import Admin from "@/pages/admin/usersManagement/Admin";
-import Student_Details from "@/pages/admin/usersManagement/student_details";
+import Student_Details from "@/pages/admin/usersManagement/Student_Details";
+import Update_Student from "@/pages/admin/usersManagement/Update_Student";
+
 
 export const admin_paths = [
   {
@@ -83,8 +85,12 @@ export const admin_paths = [
         path: "students",
         element: <Students></Students>,
       },
-      {  name: "Studentsssd",
-        path: "students/hi",
+      { 
+        path: "students/update/:student_id",
+        element: <Update_Student></Update_Student>,
+      },
+      { 
+        path: "students/details/:student_id",
         element: <Student_Details></Student_Details>,
       },
       {
@@ -99,6 +105,16 @@ export const admin_paths = [
       },
     ],
   },
+
+
+
+
+
+
+
+
+
+
   // {
   //   name: "User Management",
   //   children: [

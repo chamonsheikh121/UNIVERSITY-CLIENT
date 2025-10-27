@@ -1,10 +1,15 @@
 import React, { useState } from "react";
-import { Avatar, Button, Pagination, Spin, Table } from "antd";
+import { Avatar, Button, Modal, Pagination, Spin, Table } from "antd";
 import type { TableColumnsType, TableProps } from "antd";
 import type { TParamItems } from "@/types";
-import { useGet_all_studentQuery } from "@/redux/features/admin/user_management.api";
+import {
+  useBlock_studentMutation,
+  useGet_all_studentQuery,
+} from "@/redux/features/admin/user_management.api";
 import date_formater from "@/utils/date_formater";
 import updated_checker from "@/utils/updated_checker";
+import { Link } from "react-router-dom";
+import { toast } from "sonner";
 
 type TStudent_Data_type = {
   _id: string;
@@ -21,7 +26,10 @@ type TStudent_Data_type = {
 
 const Students = () => {
   const [page, setPage] = useState(2);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [user_id, setUser_id] = useState("");
   const [params, setParams] = useState<TParamItems[]>([]);
+  const [block_student] = useBlock_studentMutation();
   const {
     data: students,
     isLoading,
@@ -32,12 +40,13 @@ const Students = () => {
     { name: "sort", value: "id" },
     ...params,
   ]);
-  
-  const meta_data = students?.meta
-  console.log(meta_data)
+
+  const meta_data = students?.meta;
+  console.log(meta_data);
   const student_data = students?.data?.map(
     ({
       _id,
+      userId,
       name,
       gender,
       email,
@@ -52,6 +61,7 @@ const Students = () => {
       const updated_at = updated_checker(createdAt, updatedAt);
       return {
         key: _id,
+        userId,
         name: name.middleName,
         created_at,
         updated_at,
@@ -64,6 +74,11 @@ const Students = () => {
       };
     }
   );
+
+  const handleBlock = (id: string) => {
+    setIsModalOpen(true);
+    setUser_id(id);
+  };
 
   const columns: TableColumnsType<TStudent_Data_type> = [
     {
@@ -101,12 +116,18 @@ const Students = () => {
     },
     {
       title: "Action",
-      render: () => {
+      render: (item) => {
         return (
           <div>
-            <Button>Details</Button>
-            <Button>Update</Button>
-            <Button>Block</Button>
+            <Link to={`/admin/students/update/${item.key}`}>
+              {" "}
+              <Button>Update</Button>
+            </Link>
+            <Link to={`/admin/students/details/${item.key}`}>
+              {" "}
+              <Button>Details</Button>
+            </Link>
+            <Button onClick={() => handleBlock(item.userId?._id)}>Block</Button>
           </div>
         );
       },
@@ -141,6 +162,31 @@ const Students = () => {
       </div>
     );
   }
+
+  const handleOk = async () => {
+    const toast_id = toast.loading("... blocking");
+
+    console.log(
+      "===============================================================================",
+      user_id
+    );
+    const res = await block_student({
+      user_id,
+      status: { status: "blocked" },
+    });
+    if (res.error) {
+      toast.error("failed to block student", { id: toast_id });
+    }
+    if (res?.data?.success == true) {
+      toast.success("Blocked successfully", { id: toast_id });
+    }
+
+    setIsModalOpen(false);
+  };
+
+  const handleCancel = () => {
+    setIsModalOpen(false);
+  };
   return (
     <div className="">
       <Table<TStudent_Data_type>
@@ -151,10 +197,26 @@ const Students = () => {
         pagination={false}
         showSorterTooltip={{ target: "sorter-icon" }}
       />
-      
+
       <div className="mt-10">
-        <Pagination pageSize={meta_data.limit} onChange={(value)=>setPage(value)}  total={meta_data.total}  />
+        <Pagination
+          pageSize={meta_data.limit}
+          onChange={(value) => setPage(value)}
+          total={meta_data.total}
+        />
       </div>
+
+      <Modal
+        title="Basic Modal"
+        closable={{ "aria-label": "Custom Close Button" }}
+        open={isModalOpen}
+        onOk={handleOk}
+        onCancel={handleCancel}
+      >
+        <p>Some contents...</p>
+        <p>Some contents...</p>
+        <p>Some contents...</p>
+      </Modal>
     </div>
   );
 };

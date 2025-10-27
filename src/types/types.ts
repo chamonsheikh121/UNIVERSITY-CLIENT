@@ -8,7 +8,7 @@ export type TSidebar = {
 };
 
 export type TRoute_items = {
-  name: string;
+  name?: string;
   path?: string;
   element?: ReactNode;
   children?: TRoute_items[];

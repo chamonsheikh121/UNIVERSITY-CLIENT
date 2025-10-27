@@ -6,7 +6,6 @@ import { Navigate, useLocation } from "react-router-dom";
 const ProtectedRoute = ({ children }: { children: ReactNode }) => {
 
 const location = useLocation();
-console.log(location);
 
   const token = useAppSelector(current_token);
   if (!token) {

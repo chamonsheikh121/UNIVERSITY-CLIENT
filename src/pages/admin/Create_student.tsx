@@ -2,7 +2,10 @@ import { Button, Col, Divider, Input, Row } from "antd";
 import Ph_form from "@/components/form/Ph_form";
 import Ph_Input from "@/components/form/Ph_Input";
 import Ph_Select, { type TOptions } from "@/components/form/Ph_Select";
-import { useAdd_studentMutation } from "@/redux/features/admin/user_management.api";
+import {
+  useAdd_studentMutation,
+  useUpdate_studentMutation,
+} from "@/redux/features/admin/user_management.api";
 import {
   Controller,
   type FieldValues,
@@ -14,10 +17,11 @@ import {
   useGet_all_academic_semesterQuery,
 } from "@/redux/features/admin/academic_management.api";
 import Ph_select_options_generator from "@/utils/Ph_select_options_generator";
+import { toast } from "sonner";
 
-const Create_student = () => {
+const Create_student = ({ existing_student_data }: any) => {
   const [add_student] = useAdd_studentMutation();
-
+  const [update_student] = useUpdate_studentMutation();
   const { data: departments, isLoading: IsDepartmentLoading } =
     useGet_all_academic_departmentQuery(undefined, {});
   const { data: semesters, isLoading } = useGet_all_academic_semesterQuery(
@@ -29,22 +33,45 @@ const Create_student = () => {
   // console.log(semesters);
 
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
-    console.log(data);
+    const toast_id = toast.loading("...loading");
 
     const student_data = {
       Password: "",
       student_data: data,
     };
 
-    const formData = new FormData();
-    formData.append("data", JSON.stringify(student_data));
-    formData.append("studentImage", data?.profileImage);
-
     try {
-      const res = await add_student(formData);
-      console.log(res);
+      if (existing_student_data) {
+        console.log(
+          "============================================================================="
+        );
+
+        const res = await update_student({
+          id: existing_student_data._id,
+          student_data: { student_data: data }, // এইভাবে wrapper লাগানো
+        });
+        if (res.error) {
+          toast.error("failed to update student", { id: toast_id });
+        }
+        if (res?.data?.success == true) {
+          toast.success("Updated successfully", { id: toast_id });
+        }
+        console.log(res);
+      } else {
+        console.log("2");
+        const formData = new FormData();
+        formData.append("data", JSON.stringify(student_data));
+        formData.append("studentImage", data?.profileImage);
+        const res = await add_student(formData);
+        if (res.error) {
+          toast.error("failed to create student", { id: toast_id });
+        }
+        if (res?.data?.success == true) {
+          toast.success("created successfully", { id: toast_id });
+        }
+      }
     } catch (error) {
-      console.log(error);
+      toast.success("Failed", { id: toast_id });
     }
   };
 
@@ -77,7 +104,10 @@ const Create_student = () => {
   return (
     <Row>
       <Col span={24}>
-        <Ph_form onSubmit={onSubmit} defaultValues={studentDummyData}>
+        <Ph_form
+          onSubmit={onSubmit}
+          defaultValues={existing_student_data || studentDummyData}
+        >
           {/* ========== PERSONAL INFORMATION ========== */}
           <Divider>Personal Information</Divider>
           <Row gutter={8}>
@@ -312,7 +342,12 @@ const Create_student = () => {
               />
             </Col>
           </Row>
-          <Button htmlType="submit">Submit</Button>
+          <Button
+            htmlType="submit"
+            style={{ backgroundColor: "black", color: "white" }}
+          >
+            {existing_student_data ? "Update" : "Submit"}
+          </Button>
         </Ph_form>
       </Col>
     </Row>
