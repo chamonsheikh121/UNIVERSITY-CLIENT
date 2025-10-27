@@ -8,10 +8,10 @@ import Create_Academic_Faculty from "@/pages/admin/Academic_Faculty/Create_Acade
 import Create_Academic_Semester from "@/pages/admin/academic_semester/Create_Academic_Semester";
 import Create_Academic_Department from "@/pages/admin/Academic_Department/Create_Academic_Department";
 import Academic_Department from "@/pages/admin/Academic_Department/Academic_Department";
-import { Children } from "react";
 import Students from "@/pages/admin/usersManagement/Students";
 import Faculties from "@/pages/admin/usersManagement/Faculties";
 import Admin from "@/pages/admin/usersManagement/Admin";
+import Student_Details from "@/pages/admin/usersManagement/student_details";
 
 export const admin_paths = [
   {
@@ -83,6 +83,10 @@ export const admin_paths = [
         path: "students",
         element: <Students></Students>,
       },
+      {  name: "Studentsssd",
+        path: "students/hi",
+        element: <Student_Details></Student_Details>,
+      },
       {
         name: "Faculties",
         path: "faculties",
@@ -95,56 +99,56 @@ export const admin_paths = [
       },
     ],
   },
-  {
-    name: "User Management",
-    children: [
-      {
-        name: "Create Student",
-        path: "create-student",
-        element: <Create_student></Create_student>,
-      },
-      {
-        name: "Create Faculty",
-        path: "create-faculty",
-        element: <Create_faculty></Create_faculty>,
-      },
-      {
-        name: "Create Admin",
-        path: "create-admin",
-        element: <Create_Admin></Create_Admin>,
-      },
-      {
-        name: "New Sub",
-        children: [
-          {
-            name: "Create Sub Admin",
-            path: "create-sub-admin",
-            element: <Create_student></Create_student>,
-          },
-          {
-            name: "update Sub Admin",
-            path: "update-sub-admin",
-            element: <Create_faculty></Create_faculty>,
-          },
-          {
-            name: "Another Sub",
-            children: [
-              {
-                name: "another 1",
-                path: "create-another1",
-                element: <Dashboard></Dashboard>,
-              },
-              {
-                name: "another 2",
-                path: "update-another2",
-                element: <Create_Admin></Create_Admin>,
-              },
-            ],
-          },
-        ],
-      },
-    ],
-  },
+  // {
+  //   name: "User Management",
+  //   children: [
+  //     {
+  //       name: "Create Student",
+  //       path: "create-student",
+  //       element: <Create_student></Create_student>,
+  //     },
+  //     {
+  //       name: "Create Faculty",
+  //       path: "create-faculty",
+  //       element: <Create_faculty></Create_faculty>,
+  //     },
+  //     {
+  //       name: "Create Admin",
+  //       path: "create-admin",
+  //       element: <Create_Admin></Create_Admin>,
+  //     },
+  //     {
+  //       name: "New Sub",
+  //       children: [
+  //         {
+  //           name: "Create Sub Admin",
+  //           path: "create-sub-admin",
+  //           element: <Create_student></Create_student>,
+  //         },
+  //         {
+  //           name: "update Sub Admin",
+  //           path: "update-sub-admin",
+  //           element: <Create_faculty></Create_faculty>,
+  //         },
+  //         {
+  //           name: "Another Sub",
+  //           children: [
+  //             {
+  //               name: "another 1",
+  //               path: "create-another1",
+  //               element: <Dashboard></Dashboard>,
+  //             },
+  //             {
+  //               name: "another 2",
+  //               path: "update-another2",
+  //               element: <Create_Admin></Create_Admin>,
+  //             },
+  //           ],
+  //         },
+  //       ],
+  //     },
+  //   ],
+  // },
 ];
 
 // type TAdmin_Routes = {

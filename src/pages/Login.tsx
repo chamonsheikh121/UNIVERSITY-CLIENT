@@ -19,7 +19,7 @@ const Login = () => {
 
   const defaultValues = {
     user_id: "A-0001",
-    user_password: "chamonali1",
+    user_password: "chamon",
   };
 
   const onSubmit = async (data: FieldValues) => {

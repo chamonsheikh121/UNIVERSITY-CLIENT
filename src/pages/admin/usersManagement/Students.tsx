@@ -1,11 +1,10 @@
 import React, { useState } from "react";
-import { Avatar, Button, Spin, Table } from "antd";
+import { Avatar, Button, Pagination, Spin, Table } from "antd";
 import type { TableColumnsType, TableProps } from "antd";
 import type { TParamItems } from "@/types";
 import { useGet_all_studentQuery } from "@/redux/features/admin/user_management.api";
 import date_formater from "@/utils/date_formater";
 import updated_checker from "@/utils/updated_checker";
-import table_filter_generator from "@/utils/table_filter_gernerator";
 
 type TStudent_Data_type = {
   _id: string;
@@ -21,13 +20,21 @@ type TStudent_Data_type = {
 };
 
 const Students = () => {
-  const [params, setParams] = useState<TParamItems[] | undefined>(undefined);
+  const [page, setPage] = useState(2);
+  const [params, setParams] = useState<TParamItems[]>([]);
   const {
     data: students,
     isLoading,
     isFetching,
-  } = useGet_all_studentQuery(params);
-  // console.log(students);
+  } = useGet_all_studentQuery([
+    { name: "limit", value: 5 },
+    { name: "page", value: page },
+    { name: "sort", value: "id" },
+    ...params,
+  ]);
+  
+  const meta_data = students?.meta
+  console.log(meta_data)
   const student_data = students?.data?.map(
     ({
       _id,
@@ -71,10 +78,10 @@ const Students = () => {
       title: "Name",
       dataIndex: "name",
       showSorterTooltip: { target: "full-header" },
-      filters: students?.data?.map((item)=>({
+      filters: students?.data?.map((item) => ({
         text: item.name.middleName,
-        value: item.name.middleName
-      }))
+        value: item.name.middleName,
+      })),
     },
     {
       title: "Roll",
@@ -135,14 +142,19 @@ const Students = () => {
     );
   }
   return (
-    <div>
+    <div className="">
       <Table<TStudent_Data_type>
         columns={columns}
         dataSource={student_data}
         onChange={onChange}
         loading={isFetching}
+        pagination={false}
         showSorterTooltip={{ target: "sorter-icon" }}
       />
+      
+      <div className="mt-10">
+        <Pagination pageSize={meta_data.limit} onChange={(value)=>setPage(value)}  total={meta_data.total}  />
+      </div>
     </div>
   );
 };

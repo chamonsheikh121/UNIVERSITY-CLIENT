@@ -54,6 +54,7 @@ export type TResponse<T> = {
   success: boolean;
   message: string;
   data: T;
+  meta:unknown;
   error?: TError;
 };
 
